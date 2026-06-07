@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underworld SMP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#050508;
+    --card:#0d0d15;
+    --border:#1b1b28;
+    --red:#ff3333;
+    --text:#f5f5f7;
+    --muted:#9d9daa;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Space Grotesk',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* Animated Background */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:200%;
+    height:200%;
+    left:-50%;
+    top:-50%;
+    background:
+    radial-gradient(circle at 30% 30%,rgba(255,51,51,.08),transparent 20%),
+    radial-gradient(circle at 70% 70%,rgba(255,51,51,.06),transparent 30%);
+    animation:rotateBg 30s linear infinite;
+    z-index:-2;
+}
+
+@keyframes rotateBg{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* Mouse Glow */
+
+#cursor-glow{
+    width:300px;
+    height:300px;
+    position:fixed;
+    background:radial-gradient(circle,rgba(255,51,51,.12),transparent 70%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:-1;
+}
+
+/* Top Bar */
+
+.topbar{
+    text-align:center;
+    padding:12px;
+    border-bottom:1px solid var(--border);
+    color:var(--muted);
+    letter-spacing:2px;
+    font-size:.8rem;
+}
+
+.topbar span{
+    color:var(--red);
+}
+
+/* Hero */
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-family:'Cinzel',serif;
+    font-size:5rem;
+    text-transform:uppercase;
+    letter-spacing:4px;
+    animation:float 5s ease-in-out infinite;
+    text-shadow:0 0 40px rgba(255,51,51,.4);
+}
+
+.hero p{
+    margin-top:15px;
+    color:var(--muted);
+    letter-spacing:2px;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+/* Buttons */
+
+.actions{
+    display:flex;
+    gap:15px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    padding:15px 28px;
+    border-radius:14px;
+    font-weight:600;
+    transition:.3s;
+    position:relative;
+    overflow:hidden;
+}
+
+.primary{
+    background:white;
+    color:black;
+}
+
+.secondary{
+    border:1px solid var(--border);
+    color:white;
+    background:var(--card);
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+}
+
+.btn:hover::before{
+    animation:shine .8s linear;
+}
+
+@keyframes shine{
+    to{
+        left:140%;
+    }
+}
+
+/* Copy IP */
+
+.ip-box{
+    margin-top:25px;
+    cursor:pointer;
+    padding:14px 25px;
+    border-radius:999px;
+    background:var(--card);
+    border:1px solid var(--border);
+    transition:.3s;
+}
+
+.ip-box:hover{
+    border-color:var(--red);
+    box-shadow:0 0 30px rgba(255,51,51,.2);
+}
+
+.ip{
+    color:var(--red);
+}
+
+/* Sections */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(13,13,21,.8);
+    backdrop-filter:blur(12px);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:30px;
+    transition:.35s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(255,51,51,.5);
+    box-shadow:0 0 40px rgba(255,51,51,.15);
+}
+
+.card h2{
+    margin-bottom:15px;
+    font-family:'Cinzel',serif;
+}
+
+.card p,
+.card li{
+    color:var(--muted);
+}
+
+.rules li{
+    margin-bottom:12px;
+}
+
+/* Status */
+
+.status{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.online{
+    color:#10b981;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        text-shadow:0 0 15px #10b981;
+    }
+}
+
+footer{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--muted);
+}
+
+/* Animation */
+
+.fade{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s forwards;
+}
+
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:3rem;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="cursor-glow"></div>
+
+<div class="topbar">
+Made by <span>decrease</span>
+</div>
+
+<section class="hero fade">
+<h1>Underworld SMP</h1>
+<p>Explore The Depths • Minecraft 1.21</p>
+
+<div class="ip-box" onclick="copyIP()">
+Click to Copy IP:
+<span class="ip">under.kinoko.world</span>
+</div>
+
+<div class="actions">
+<a class="btn primary" href="https://discord.gg/wsptUnZmHh" target="_blank">
+Join Discord
+</a>
+
+<a class="btn secondary" href="#about">
+Learn More
+</a>
+</div>
+</section>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card fade" id="about">
+<h2>The World</h2>
+<p>
+A community-focused survival SMP built around long-term progression,
+player interaction, exploration and unforgettable adventures.
+</p>
+</div>
+
+<div class="card fade">
+<h2>Server Rules</h2>
+<ul class="rules">
+<li>No hacks or exploits.</li>
+<li>Respect builds and player property.</li>
+<li>No toxicity or harassment.</li>
+<li>Play fair and help the community grow.</li>
+</ul>
+</div>
+
+<div class="card fade">
+<h2>Server Status</h2>
+
+<div class="status">
+<span>Network</span>
+<span class="online">ONLINE</span>
+</div>
+
+<div class="status">
+<span>Version</span>
+<span>1.21</span>
+</div>
+
+<div class="status">
+<span>Gamemode</span>
+<span>Survival SMP</span>
+</div>
+
+<div class="status">
+<span>Community</span>
+<span>Active</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Underworld SMP • Explore The Depths
+</footer>
+
+<script>
+function copyIP(){
+navigator.clipboard.writeText("under.kinoko.world");
+
+const box=document.querySelector(".ip-box");
+
+const original=box.innerHTML;
+
+box.innerHTML=
+'✓ Copied! <span class="ip">under.kinoko.world</span>';
+
+setTimeout(()=>{
+box.innerHTML=original;
+},2000);
+}
+
+const glow=document.getElementById("cursor-glow");
+
+document.addEventListener("mousemove",(e)=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+</script>
+
+</body>
+</html>
+```
