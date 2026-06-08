@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Underworld SMP • Staff Team</title>
+<title>Underworld SMP • Staff</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
 --bg:#050508;
---card:#0d0d15;
---border:#1b1b28;
---red:#ff3333;
+--card:rgba(255,255,255,.03);
+--border:rgba(255,255,255,.08);
+--accent:#b71c1c;
 --text:#f5f5f7;
 --muted:#9d9daa;
 }
@@ -23,106 +24,81 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-font-family:'Space Grotesk',sans-serif;
+font-family:'Inter',sans-serif;
 background:var(--bg);
 color:var(--text);
 overflow-x:hidden;
 }
 
+/* Background */
+
 body::before{
 content:"";
 position:fixed;
-width:200%;
-height:200%;
-left:-50%;
-top:-50%;
+inset:0;
 background:
-radial-gradient(circle at 30% 30%,rgba(255,51,51,.08),transparent 20%),
-radial-gradient(circle at 70% 70%,rgba(255,51,51,.05),transparent 30%);
-animation:rotateBg 30s linear infinite;
+radial-gradient(circle at top,
+rgba(183,28,28,.15),
+transparent 50%);
 z-index:-2;
 }
 
-@keyframes rotateBg{
-from{transform:rotate(0deg);}
-to{transform:rotate(360deg);}
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1px);
+background-size:80px 80px;
+opacity:.1;
+animation:particles 60s linear infinite;
+pointer-events:none;
+z-index:-1;
 }
 
-header{
+@keyframes particles{
+from{transform:translateY(0);}
+to{transform:translateY(-300px);}
+}
+
+/* Hero */
+
+.hero{
+height:65vh;
+display:flex;
+justify-content:center;
+align-items:center;
 text-align:center;
-padding:90px 20px 40px;
-animation:fadeUp 1s ease;
-}
-
-header h1{
-font-family:'Cinzel',serif;
-font-size:4rem;
-text-shadow:0 0 25px rgba(255,51,51,.35);
-}
-
-header p{
-color:var(--muted);
-margin-top:10px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
 padding:20px;
 }
 
-.staff-card{
-background:rgba(13,13,21,.85);
-backdrop-filter:blur(12px);
-border:1px solid var(--border);
-border-radius:24px;
-padding:35px;
-animation:fadeUp 1.2s ease;
-box-shadow:0 0 40px rgba(255,51,51,.08);
+.hero-content{
+animation:fadeUp 1s ease;
 }
 
-.staff-row{
-display:flex;
-justify-content:space-between;
-padding:18px 0;
-border-bottom:1px solid var(--border);
-transition:.3s;
+.hero h1{
+font-family:'Cinzel',serif;
+font-size:6rem;
+letter-spacing:10px;
+margin-bottom:15px;
+text-shadow:0 0 30px rgba(183,28,28,.3);
 }
 
-.staff-row:last-child{
-border-bottom:none;
-}
-
-.staff-row:hover{
-transform:translateX(8px);
-}
-
-.rank{
-color:var(--red);
-font-weight:700;
-}
-
-.back-btn{
-display:inline-block;
-margin-top:30px;
-padding:14px 24px;
-background:white;
-color:black;
-text-decoration:none;
-border-radius:12px;
-font-weight:600;
-transition:.3s;
-}
-
-.back-btn:hover{
-transform:translateY(-3px);
+.hero p{
+color:var(--muted);
+letter-spacing:4px;
+text-transform:uppercase;
 }
 
 @keyframes fadeUp{
 from{
 opacity:0;
-transform:translateY(25px);
+transform:translateY(30px);
 }
 to{
 opacity:1;
@@ -130,55 +106,277 @@ transform:translateY(0);
 }
 }
 
+/* Layout */
+
+.container{
+max-width:1300px;
+margin:auto;
+padding:20px;
+}
+
+.section-title{
+font-family:'Cinzel',serif;
+font-size:2rem;
+text-align:center;
+margin:70px 0 35px;
+letter-spacing:4px;
+position:relative;
+}
+
+.section-title::after{
+content:"";
+position:absolute;
+left:50%;
+bottom:-10px;
+transform:translateX(-50%);
+width:80px;
+height:2px;
+background:var(--accent);
+}
+
+.staff-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:24px;
+}
+
+/* Cards */
+
+.card{
+background:var(--card);
+backdrop-filter:blur(16px);
+border:1px solid var(--border);
+border-radius:28px;
+padding:30px;
+text-align:center;
+transition:.45s ease;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover{
+transform:translateY(-10px);
+border-color:rgba(183,28,28,.4);
+box-shadow:
+0 15px 40px rgba(0,0,0,.4),
+0 0 30px rgba(183,28,28,.12);
+}
+
+.card::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:60%;
+height:100%;
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.08),
+transparent);
+transition:.8s;
+}
+
+.card:hover::before{
+left:150%;
+}
+
+.skin{
+width:96px;
+height:96px;
+border-radius:18px;
+image-rendering:pixelated;
+margin-bottom:18px;
+transition:.4s;
+}
+
+.card:hover .skin{
+transform:scale(1.08);
+}
+
+.name{
+font-size:1.2rem;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.role{
+display:inline-block;
+padding:7px 14px;
+border-radius:999px;
+font-size:.75rem;
+letter-spacing:2px;
+text-transform:uppercase;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+color:var(--muted);
+}
+
+/* Footer */
+
+.footer{
+text-align:center;
+padding:70px 20px;
+color:var(--muted);
+}
+
+.footer span{
+color:white;
+font-weight:600;
+}
+
+.home-btn{
+display:inline-block;
+margin-top:20px;
+padding:14px 30px;
+background:white;
+color:black;
+text-decoration:none;
+border-radius:14px;
+font-weight:600;
+transition:.3s;
+}
+
+.home-btn:hover{
+transform:translateY(-3px);
+}
+
+/* Mobile */
+
 @media(max-width:768px){
-header h1{
-font-size:2.8rem;
+
+.hero h1{
+font-size:3.5rem;
+letter-spacing:5px;
 }
+
 }
+
 </style>
 </head>
-
 <body>
 
-<header>
-<h1>Staff Team</h1>
-<p>The people who keep Underworld SMP running.</p>
-</header>
+<section class="hero">
+<div class="hero-content">
+<h1>STAFF</h1>
+<p>Underworld SMP</p>
+</div>
+</section>
 
 <div class="container">
 
-<div class="staff-card">
+<h2 class="section-title">Leadership</h2>
 
-<div class="staff-row">
-<span class="rank">👑 Owner</span>
-<span>Mr Durden YT</span>
+<div class="staff-grid">
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/StoneMiner47/128">
+<div class="name">DURDEN</div>
+<div class="role">Owner</div>
 </div>
 
-<div class="staff-row">
-<span class="rank">⚔ Administrator</span>
-<span>Locked On</span>
-</div>
-
-<div class="staff-row">
-<span class="rank">🛡 Moderator</span>
-<span>Aydhin</span>
-</div>
-
-<div class="staff-row">
-<span class="rank">🛡 Moderator</span>
-<span>Uw Madara</span>
-</div>
-
-<div class="staff-row">
-<span class="rank">🎮 Helper</span>
-<span>Decrease</span>
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/NightForgeX/128">
+<div class="name">LOCKED ON</div>
+<div class="role">Co Owner</div>
 </div>
 
 </div>
 
-<center>
-<a href="index.html" class="back-btn">← Return Home</a>
-</center>
+<h2 class="section-title">Management</h2>
+
+<div class="staff-grid">
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/ByteCrafter/128">
+<div class="name">AYDHN</div>
+<div class="role">Developer</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/ObsidianSoul/128">
+<div class="name">DECREASE</div>
+<div class="role">Web Designer</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/ShadowRoot_/128">
+<div class="name">VILLI</div>
+<div class="role">Protector</div>
+</div>
+
+</div>
+
+<h2 class="section-title">Administrators</h2>
+
+<div class="staff-grid">
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/FrostWalkerX/128">
+<div class="name">MADARA</div>
+<div class="role">Administrator</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/EmberKnight7/128">
+<div class="name">TECHY</div>
+<div class="role">Administrator</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/VoidTraveler/128">
+<div class="name">MIC</div>
+<div class="role">Administrator</div>
+</div>
+
+</div>
+
+<h2 class="section-title">Staff Team</h2>
+
+<div class="staff-grid">
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/LunarBuilder/128">
+<div class="name">ZEN</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/OakGuardian/128">
+<div class="name">NECOLO</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/NetherScout/128">
+<div class="name">MILANJOHN</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/IronVoyager/128">
+<div class="name">METRIX</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/RiverCrafter/128">
+<div class="name">ALWIN</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/EchoMiner/128">
+<div class="name">SPECKY</div>
+</div>
+
+<div class="card">
+<img class="skin" src="https://mc-heads.net/avatar/DeepWarden/128">
+<div class="name">ADNAN</div>
+</div>
+
+</div>
+
+<div class="footer">
+Designed by <span>DECREASE</span><br>
+<a href="index.html" class="home-btn">Return Home</a>
+</div>
 
 </div>
 
