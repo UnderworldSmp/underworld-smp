@@ -5,378 +5,451 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Underworld SMP • Staff</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
---bg:#050508;
---card:rgba(255,255,255,.03);
---border:rgba(255,255,255,.08);
---accent:#b71c1c;
---text:#f5f5f7;
---muted:#9d9daa;
+:root {
+  --bg: #030306;
+  --card: rgba(12, 8, 8, 0.45);
+  --border: rgba(255, 255, 255, 0.05);
+  --accent: #e51b1b;
+  --accent-glow: rgba(229, 27, 27, 0.25);
+  --text: #f5f5f7;
+  --muted: #8a8a98;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* Background */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at top,
-rgba(183,28,28,.15),
-transparent 50%);
-z-index:-2;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #1a0a0a;
+  border: 2px solid var(--bg);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1px);
-background-size:80px 80px;
-opacity:.1;
-animation:particles 60s linear infinite;
-pointer-events:none;
-z-index:-1;
+/* Enhanced Ambient Background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% -20%, rgba(229, 27, 27, 0.18), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(229, 27, 27, 0.05), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgba(229, 27, 27, 0.05), transparent 30%);
+  z-index: -2;
+  pointer-events: none;
 }
 
-@keyframes particles{
-from{transform:translateY(0);}
-to{transform:translateY(-300px);}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  animation: backgroundPan 120s linear infinite;
+  pointer-events: none;
+  z-index: -1;
 }
 
-/* Hero */
-
-.hero{
-height:65vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
+@keyframes backgroundPan {
+  from { background-position: 0 0; }
+  to { background-position: 0 -1000px; }
 }
 
-.hero-content{
-animation:fadeUp 1s ease;
+/* Hero Section */
+.hero {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  position: relative;
 }
 
-.hero h1{
-font-family:'Cinzel',serif;
-font-size:6rem;
-letter-spacing:10px;
-margin-bottom:15px;
-text-shadow:0 0 30px rgba(183,28,28,.3);
+.hero-content {
+  animation: heroFadeUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.hero p{
-color:var(--muted);
-letter-spacing:4px;
-text-transform:uppercase;
+.hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 7rem;
+  font-weight: 900;
+  letter-spacing: 16px;
+  margin-bottom: 10px;
+  background: linear-gradient(to bottom, #ffffff, #a8a8af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 35px rgba(229, 27, 27, 0.4));
 }
 
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(30px);
+.hero p {
+  color: var(--accent);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.8;
 }
-to{
-opacity:1;
-transform:translateY(0);
-}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Layout */
-
-.container{
-max-width:1300px;
-margin:auto;
-padding:20px;
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px 100px;
 }
 
-.section-title{
-font-family:'Cinzel',serif;
-font-size:2rem;
-text-align:center;
-margin:70px 0 35px;
-letter-spacing:4px;
-position:relative;
+.section-group {
+  animation: sectionReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.section-group:nth-child(1) { animation-delay: 0.2s; }
+.section-group:nth-child(2) { animation-delay: 0.4s; }
+.section-group:nth-child(3) { animation-delay: 0.6s; }
+.section-group:nth-child(4) { animation-delay: 0.8s; }
+
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.section-title::after{
-content:"";
-position:absolute;
-left:50%;
-bottom:-10px;
-transform:translateX(-50%);
-width:80px;
-height:2px;
-background:var(--accent);
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 90px 0 40px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #fff;
+  position: relative;
 }
 
-.staff-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:24px;
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
 }
 
-/* Cards */
-
-.card{
-background:var(--card);
-backdrop-filter:blur(16px);
-border:1px solid var(--border);
-border-radius:28px;
-padding:30px;
-text-align:center;
-transition:.45s ease;
-position:relative;
-overflow:hidden;
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
 }
 
-.card:hover{
-transform:translateY(-10px);
-border-color:rgba(183,28,28,.4);
-box-shadow:
-0 15px 40px rgba(0,0,0,.4),
-0 0 30px rgba(183,28,28,.12);
+/* Optimized Centering for smaller groups */
+.staff-grid:has(.card:nth-child(2):last-child) {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.card::before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:60%;
-height:100%;
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.08),
-transparent);
-transition:.8s;
+/* Premium Cards */
+.card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.15, 0.85, 0.45, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.card:hover::before{
-left:150%;
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(229, 27, 27, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.skin{
-width:96px;
-height:96px;
-border-radius:18px;
-image-rendering:pixelated;
-margin-bottom:18px;
-transition:.4s;
+.card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(229, 27, 27, 0.35);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6), 
+    0 0 40px rgba(229, 27, 27, 0.15);
 }
 
-.card:hover .skin{
-transform:scale(1.08);
+.card:hover::before {
+  opacity: 1;
 }
 
-.name{
-font-size:1.2rem;
-font-weight:600;
-margin-bottom:8px;
+/* Shimmer Sheen Light Effect */
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  transform: skewX(-20deg);
+  transition: 0.75s;
 }
 
-.role{
-display:inline-block;
-padding:7px 14px;
-border-radius:999px;
-font-size:.75rem;
-letter-spacing:2px;
-text-transform:uppercase;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.06);
-color:var(--muted);
+.card:hover::after {
+  left: 150%;
 }
 
-/* Footer */
-
-.footer{
-text-align:center;
-padding:70px 20px;
-color:var(--muted);
+/* 3D Isometric Skin Styling */
+.skin {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.footer span{
-color:white;
-font-weight:600;
+.card:hover .skin {
+  transform: scale(1.15) translateY(-5px);
+  filter: drop-shadow(0 15px 20px rgba(229, 27, 27, 0.3));
 }
 
-.home-btn{
-display:inline-block;
-margin-top:20px;
-padding:14px 30px;
-background:white;
-color:black;
-text-decoration:none;
-border-radius:14px;
-font-weight:600;
-transition:.3s;
+.name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.home-btn:hover{
-transform:translateY(-3px);
+.role {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  transition: all 0.4s ease;
 }
 
-/* Mobile */
-
-@media(max-width:768px){
-
-.hero h1{
-font-size:3.5rem;
-letter-spacing:5px;
+.card:hover .role {
+  color: #fff;
+  background: rgba(229, 27, 27, 0.15);
+  border-color: rgba(229, 27, 27, 0.3);
+  box-shadow: 0 0 15px rgba(229, 27, 27, 0.1);
 }
 
+/* Footer & Buttons */
+.footer {
+  text-align: center;
+  padding-top: 60px;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
+.footer span {
+  color: white;
+  font-weight: 600;
+}
+
+.home-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 16px 36px;
+  background: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.home-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(229, 27, 27, 0.3);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+/* Responsiveness */
+@media(max-width: 768px){
+  .hero {
+    height: 45vh;
+  }
+  .hero h1 {
+    font-size: 3.8rem;
+    letter-spacing: 8px;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin: 60px 0 30px;
+  }
+  .staff-grid {
+    gap: 20px;
+  }
+}
 </style>
 </head>
 <body>
 
 <section class="hero">
-<div class="hero-content">
-<h1>STAFF</h1>
-<p>Underworld SMP</p>
-</div>
+  <div class="hero-content">
+    <h1>STAFF</h1>
+    <p>Underworld SMP</p>
+  </div>
 </section>
 
 <div class="container">
 
-<h2 class="section-title">Leadership</h2>
+  <div class="section-group">
+    <h2 class="section-title">Leadership</h2>
+    <div class="staff-grid">
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/StoneMiner47/128" alt="Durden">
+        <div class="name">DURDEN</div>
+        <div class="role">Owner</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/NightForgeX/128" alt="Locked On">
+        <div class="name">LOCKED ON</div>
+        <div class="role">Co Owner</div>
+      </div>
+    </div>
+  </div>
 
-<div class="staff-grid">
+  <div class="section-group">
+    <h2 class="section-title">Management</h2>
+    <div class="staff-grid">
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/ByteCrafter/128" alt="Aydhin">
+        <div class="name">AYDHIN</div>
+        <div class="role">Developer</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/ObsidianSoul/128" alt="Decrease">
+        <div class="name">DECREASE</div>
+        <div class="role">Web Designer</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/ShadowRoot_/128" alt="Villi">
+        <div class="name">VILLI</div>
+        <div class="role">Protector</div>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/StoneMiner47/128">
-<div class="name">DURDEN</div>
-<div class="role">Owner</div>
-</div>
+  <div class="section-group">
+    <h2 class="section-title">Administrators</h2>
+    <div class="staff-grid">
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/FrostWalkerX/128" alt="Madara">
+        <div class="name">MADARA</div>
+        <div class="role">Administrator</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/EmberKnight7/128" alt="Techy">
+        <div class="name">TECHY</div>
+        <div class="role">Administrator</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/VoidTraveler/128" alt="Mic">
+        <div class="name">MIC</div>
+        <div class="role">Administrator</div>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/NightForgeX/128">
-<div class="name">LOCKED ON</div>
-<div class="role">Co Owner</div>
-</div>
+  <div class="section-group">
+    <h2 class="section-title">Staff Team</h2>
+    <div class="staff-grid">
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/LunarBuilder/128" alt="Zen">
+        <div class="name">ZEN</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/OakGuardian/128" alt="Necolo">
+        <div class="name">NECOLO</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/NetherScout/128" alt="Milanjohn">
+        <div class="name">MILANJOHN</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/IronVoyager/128" alt="Metrix">
+        <div class="name">METRIX</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/RiverCrafter/128" alt="Alwin">
+        <div class="name">ALWIN</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/EchoMiner/128" alt="Specky">
+        <div class="name">SPECKY</div>
+        <div class="role">Staff Team</div>
+      </div>
+      <div class="card">
+        <img class="skin" src="https://mc-heads.net/head/DeepWarden/128" alt="Adnan">
+        <div class="name">ADNAN</div>
+        <div class="role">Staff Team</div>
+      </div>
+    </div>
+  </div>
 
-</div>
-
-<h2 class="section-title">Management</h2>
-
-<div class="staff-grid">
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/ByteCrafter/128">
-<div class="name">AYDHIN</div>
-<div class="role">Developer</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/ObsidianSoul/128">
-<div class="name">DECREASE</div>
-<div class="role">Web Designer</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/ShadowRoot_/128">
-<div class="name">VILLI</div>
-<div class="role">Protector</div>
-</div>
-
-</div>
-
-<h2 class="section-title">Administrators</h2>
-
-<div class="staff-grid">
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/FrostWalkerX/128">
-<div class="name">MADARA</div>
-<div class="role">Administrator</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/EmberKnight7/128">
-<div class="name">TECHY</div>
-<div class="role">Administrator</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/VoidTraveler/128">
-<div class="name">MIC</div>
-<div class="role">Administrator</div>
-</div>
-
-</div>
-
-<h2 class="section-title">Staff Team</h2>
-
-<div class="staff-grid">
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/LunarBuilder/128">
-<div class="name">ZEN</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/OakGuardian/128">
-<div class="name">NECOLO</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/NetherScout/128">
-<div class="name">MILANJOHN</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/IronVoyager/128">
-<div class="name">METRIX</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/RiverCrafter/128">
-<div class="name">ALWIN</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/EchoMiner/128">
-<div class="name">SPECKY</div>
-</div>
-
-<div class="card">
-<img class="skin" src="https://mc-heads.net/avatar/DeepWarden/128">
-<div class="name">ADNAN</div>
-</div>
-
-</div>
-
-<div class="footer">
-Designed by <span>DECREASE</span><br>
-<a href="index.html" class="home-btn">Return Home</a>
-</div>
+  <footer class="footer">
+    Designed by <span>DECREASE</span><br>
+    <a href="index.html" class="home-btn">Return Home</a>
+  </footer>
 
 </div>
 
