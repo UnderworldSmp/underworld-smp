@@ -1,396 +1,426 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Underworld SMP</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Underworld SMP — Explore The Depths</title>
+<meta name="description" content="Underworld SMP — a community-focused Minecraft 1.21 survival server. Explore the depths." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-    --bg:#050508;
-    --card:#0d0d15;
-    --border:#1b1b28;
-    --red:#ff3333;
-    --text:#f5f5f7;
-    --muted:#9d9daa;
+  --bg:#07070b;
+  --bg-2:#0b0b12;
+  --surface:rgba(255,255,255,0.03);
+  --surface-2:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.14);
+  --text:#f4f4f7;
+  --muted:#8b8b98;
+  --ember:#ff5a3c;
+  --ember-2:#ffb061;
+  --ember-glow:rgba(255,90,60,0.35);
+  --online:#34d399;
+  --radius:18px;
+  --max:1180px;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-    font-family:'Space Grotesk',sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    overflow-x:hidden;
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
 }
 
-/* Animated Background */
-
-body::before{
-    content:"";
-    position:fixed;
-    width:200%;
-    height:200%;
-    left:-50%;
-    top:-50%;
-    background:
-    radial-gradient(circle at 30% 30%,rgba(255,51,51,.08),transparent 20%),
-    radial-gradient(circle at 70% 70%,rgba(255,51,51,.06),transparent 30%);
-    animation:rotateBg 30s linear infinite;
-    z-index:-2;
+.bg-layer{
+  position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(255,90,60,0.10), transparent 60%),
+    radial-gradient(900px 600px at 80% 100%, rgba(80,90,255,0.05), transparent 60%),
+    linear-gradient(180deg,#06060a 0%, #08080d 100%);
+}
+.bg-grid{
+  position:fixed;inset:0;z-index:-2;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:54px 54px;
+  mask-image:radial-gradient(ellipse at 50% 30%, #000 40%, transparent 80%);
+}
+.bg-noise{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-@keyframes rotateBg{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+.embers{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.ember{
+  position:absolute;bottom:-20px;width:3px;height:3px;border-radius:50%;
+  background:var(--ember);box-shadow:0 0 10px var(--ember),0 0 20px var(--ember-2);
+  animation:rise linear infinite;opacity:0;
+}
+@keyframes rise{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:0}
+  10%{opacity:.9}
+  100%{transform:translateY(-110vh) translateX(var(--drift,40px)) scale(.3);opacity:0}
 }
 
-/* Mouse Glow */
-
-#cursor-glow{
-    width:300px;
-    height:300px;
-    position:fixed;
-    background:radial-gradient(circle,rgba(255,51,51,.12),transparent 70%);
-    pointer-events:none;
-    transform:translate(-50%,-50%);
-    z-index:-1;
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(12px);
+  background:rgba(7,7,11,0.65);
+  border-bottom:1px solid var(--border);
 }
-
-/* Top Bar */
-
-.topbar{
-    text-align:center;
-    padding:12px;
-    border-bottom:1px solid var(--border);
-    color:var(--muted);
-    letter-spacing:2px;
-    font-size:.8rem;
+.nav-inner{
+  max-width:var(--max);margin:auto;padding:18px 24px;
+  display:flex;align-items:center;justify-content:space-between;
 }
-
-.topbar span{
-    color:var(--red);
+.brand{
+  display:flex;align-items:center;gap:12px;font-family:'Cinzel',serif;font-weight:700;letter-spacing:2px;font-size:.95rem;
 }
+.brand-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--ember),var(--ember-2));
+  position:relative;box-shadow:0 0 24px var(--ember-glow);
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:6px;border-radius:4px;
+  background:var(--bg);
+}
+.nav-links{display:flex;gap:28px;font-size:.88rem;color:var(--muted)}
+.nav-links a{color:inherit;text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  padding:10px 18px;border-radius:999px;text-decoration:none;
+  background:var(--text);color:#000;font-weight:600;font-size:.85rem;
+  transition:transform .2s, box-shadow .2s;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.15)}
 
-/* Hero */
+@media(max-width:720px){.nav-links{display:none}}
 
 .hero{
-    min-height:85vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
+  min-height:88vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:80px 24px 60px;position:relative;
 }
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 16px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);
+  font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+}
+.eyebrow .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--online);
+  box-shadow:0 0 12px var(--online);animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{50%{opacity:.4}}
 
 .hero h1{
-    font-family:'Cinzel',serif;
-    font-size:5rem;
-    text-transform:uppercase;
-    letter-spacing:4px;
-    animation:float 5s ease-in-out infinite;
-    text-shadow:0 0 40px rgba(255,51,51,.4);
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.8rem,7vw,6rem);
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  margin-top:28px;
+  background:linear-gradient(180deg,#fff 0%, #fff 40%, #c8c8d0 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;
+}
+.hero h1 .accent{
+  background:linear-gradient(180deg,var(--ember-2),var(--ember));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin-top:22px;max-width:560px;color:var(--muted);font-size:1.05rem;
 }
 
-.hero p{
-    margin-top:15px;
-    color:var(--muted);
-    letter-spacing:2px;
-}
-
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-}
-
-/* Buttons */
-
-.actions{
-    display:flex;
-    gap:15px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
-
+.actions{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;justify-content:center}
 .btn{
-    text-decoration:none;
-    padding:15px 28px;
-    border-radius:14px;
-    font-weight:600;
-    transition:.3s;
-    position:relative;
-    overflow:hidden;
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border-radius:12px;text-decoration:none;
+  font-weight:600;font-size:.92rem;letter-spacing:.3px;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  overflow:hidden;
 }
-
-.primary{
-    background:white;
-    color:black;
+.btn.primary{
+  background:linear-gradient(135deg,var(--ember),var(--ember-2));
+  color:#0a0a0e;
+  box-shadow:0 10px 30px var(--ember-glow);
 }
-
-.secondary{
-    border:1px solid var(--border);
-    color:white;
-    background:var(--card);
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px var(--ember-glow)}
+.btn.ghost{
+  background:var(--surface);color:var(--text);border:1px solid var(--border-strong);
 }
+.btn.ghost:hover{transform:translateY(-3px);background:var(--surface-2);border-color:rgba(255,255,255,.25)}
+.btn .arrow{transition:transform .25s}
+.btn:hover .arrow{transform:translateX(4px)}
 
-.btn:hover{
-    transform:translateY(-4px);
+.ip-card{
+  margin-top:42px;display:inline-flex;align-items:center;gap:14px;
+  padding:8px 8px 8px 22px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);
+  cursor:pointer;transition:all .25s;
+  font-size:.92rem;
 }
-
-.btn::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:60%;
-    height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+.ip-card:hover{border-color:rgba(255,90,60,.5);box-shadow:0 0 40px rgba(255,90,60,.15)}
+.ip-card .label{color:var(--muted);font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase}
+.ip-card .ip{color:var(--ember-2);font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:600}
+.ip-card .copy-pill{
+  padding:8px 16px;border-radius:999px;background:rgba(255,255,255,0.08);
+  font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;
 }
+.ip-card.copied .copy-pill{background:var(--online);color:#000}
 
-.btn:hover::before{
-    animation:shine .8s linear;
+.stats{
+  max-width:var(--max);margin:0 auto;padding:0 24px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  margin-top:40px;
 }
+.stat{padding:24px;background:var(--bg-2);text-align:center}
+.stat .num{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:700;color:var(--text)}
+.stat .lbl{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
 
-@keyframes shine{
-    to{
-        left:140%;
-    }
+.section{max-width:var(--max);margin:auto;padding:100px 24px}
+.section-head{text-align:center;margin-bottom:56px}
+.section-head .kicker{
+  font-size:.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--ember-2);
 }
-
-/* Copy IP */
-
-.ip-box{
-    margin-top:25px;
-    cursor:pointer;
-    padding:14px 25px;
-    border-radius:999px;
-    background:var(--card);
-    border:1px solid var(--border);
-    transition:.3s;
+.section-head h2{
+  font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3rem);
+  margin-top:12px;letter-spacing:2px;text-transform:uppercase;
 }
+.section-head p{color:var(--muted);margin-top:14px;max-width:560px;margin-left:auto;margin-right:auto}
 
-.ip-box:hover{
-    border-color:var(--red);
-    box-shadow:0 0 30px rgba(255,51,51,.2);
-}
-
-.ip{
-    color:var(--red);
-}
-
-/* Sections */
-
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 
 .card{
-    background:rgba(13,13,21,.8);
-    backdrop-filter:blur(12px);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:30px;
-    transition:.35s;
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:32px;
+  transition:transform .35s ease, border-color .35s ease, background .35s ease;
+  overflow:hidden;
 }
-
-.card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(255,51,51,.5);
-    box-shadow:0 0 40px rgba(255,51,51,.15);
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:var(--radius);
+  background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%), rgba(255,90,60,0.10), transparent 60%);
+  opacity:0;transition:opacity .35s;pointer-events:none;
 }
-
-.card h2{
-    margin-bottom:15px;
-    font-family:'Cinzel',serif;
+.card:hover{transform:translateY(-6px);border-color:var(--border-strong);background:var(--surface-2)}
+.card:hover::before{opacity:1}
+.card .icon{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,90,60,.18),rgba(255,176,97,.08));
+  border:1px solid rgba(255,90,60,.25);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;font-size:1.2rem;
 }
+.card h3{font-family:'Cinzel',serif;font-size:1.15rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.card p,.card li{color:var(--muted);font-size:.95rem}
+.card ul{list-style:none;padding:0}
+.card li{padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.card li:last-child{border-bottom:none}
+.card li::before{content:"";width:6px;height:6px;background:var(--ember);border-radius:50%;flex-shrink:0;box-shadow:0 0 8px var(--ember-glow)}
 
-.card p,
-.card li{
-    color:var(--muted);
+.status-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);font-size:.92rem}
+.status-row:last-child{border-bottom:none}
+.status-row .k{color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-size:.78rem}
+.status-row .v{font-weight:600}
+.status-row .v.online{color:var(--online);display:inline-flex;align-items:center;gap:8px}
+.status-row .v.online::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--online);box-shadow:0 0 10px var(--online);animation:pulse 2s infinite}
+
+.cta{
+  max-width:var(--max);margin:40px auto 0;padding:0 24px;
 }
-
-.rules li{
-    margin-bottom:12px;
+.cta-inner{
+  position:relative;border-radius:24px;padding:60px 40px;text-align:center;
+  background:
+    radial-gradient(600px 300px at 50% 0%, rgba(255,90,60,0.18), transparent 70%),
+    linear-gradient(180deg,#0e0e16,#0a0a10);
+  border:1px solid var(--border-strong);overflow:hidden;
 }
-
-/* Status */
-
-.status{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 0;
-    border-bottom:1px solid var(--border);
-}
-
-.online{
-    color:#10b981;
-    animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-    50%{
-        text-shadow:0 0 15px #10b981;
-    }
-}
+.cta-inner h2{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:2px;text-transform:uppercase}
+.cta-inner p{color:var(--muted);margin:14px auto 28px;max-width:480px}
 
 footer{
-    text-align:center;
-    padding:50px 20px;
-    color:var(--muted);
+  border-top:1px solid var(--border);margin-top:80px;
+  padding:36px 24px;text-align:center;color:var(--muted);font-size:.85rem;
 }
+footer span{color:var(--ember-2)}
 
-/* Animation */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1;transform:none}
 
-.fade{
-    opacity:0;
-    transform:translateY(30px);
-    animation:fadeUp .8s forwards;
-}
-
-@keyframes fadeUp{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-@media(max-width:768px){
-
-.hero h1{
-    font-size:3rem;
-}
-
-}
 </style>
 </head>
-
 <body>
 
-<div id="cursor-glow"></div>
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+<div class="embers" id="embers"></div>
 
-<div class="topbar">
-Made by <span>decrease</span>
-</div>
+<<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="brand-mark"></span>UNDERWORLD</div>
+    <div class="nav-links">
+      <a href="#about">World</a>
+      <a href="#rules">Rules</a>
+      <a href="#status">Status</a>
+      <a href="staff.html">Staff</a>
+    </div>
+    <a class="nav-cta" href="https://discord.gg/wsptUnZmHh" target="_blank">Join Discord</a>
+  </div>
+</nav>
 
-<section class="hero fade">
-<h1>Underworld SMP</h1>
-<p>Explore The Depths • Minecraft 1.21</p>
+<section class="hero">
+  <div class="eyebrow reveal"><span class="dot"></span> Server Online · 1.21</div>
+  <h1 class="reveal">Explore<br/>The <span class="accent">Depths</span></h1>
+  <p class="hero-sub reveal">A community-focused survival SMP built around long-term progression, player interaction, and unforgettable adventures beneath the surface.</p>
 
-<div class="ip-box" onclick="copyIP()">
-Click to Copy IP:
-<span class="ip">under.kinoko.world</span>
-</div>
+  <div class="actions reveal">
+    <a class="btn primary" href="https://discord.gg/wsptUnZmHh" target="_blank">Join Discord <span class="arrow">→</span></a>
+    <a class="btn ghost" href="https://www.youtube.com/@mrdurdengaming13" target="_blank">YouTube</a>
+    <a class="btn ghost" href="#about">Discover the World</a>
+  </div>
 
-<div class="actions">
-<a class="btn primary" href="https://discord.gg/wsptUnZmHh" target="_blank">
-Join Discord
-</a>
+  <div class="ip-card reveal" id="ipCard" onclick="copyIP()">
+    <span class="label">IP</span>
+    <span class="ip">under.kinoko.world</span>
+    <span class="copy-pill" id="copyPill">Copy</span>
+  </div>
 
-<a class="btn secondary" href="staff.html">
-Staff Team
-</a>
-</div>
+  <div class="stats reveal">
+    <div class="stat"><div class="num">1.21</div><div class="lbl">Version</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="lbl">Uptime</div></div>
+    <div class="stat"><div class="num">SMP</div><div class="lbl">Survival</div></div>
+    <div class="stat"><div class="num">∞</div><div class="lbl">Adventure</div></div>
+  </div>
 </section>
 
-<div class="container">
+<section class="section" id="about">
+  <div class="section-head reveal">
+    <div class="kicker">The Realm</div>
+    <h2>A World Worth Returning To</h2>
+    <p>Three pillars that make Underworld more than just another server.</p>
+  </div>
+  <div class="grid">
+    <div class="card reveal">
+      <div class="icon">⛏</div>
+      <h3>Pure Survival</h3>
+      <p>Long-term progression with no pay-to-win, no resets, and no shortcuts. Build something that lasts.</p>
+    </div>
+    <div class="card reveal">
+      <div class="icon">⚔</div>
+      <h3>Living Community</h3>
+      <p>An active Discord, weekly events, and players who actually show up. Friends, rivalries, and real stories.</p>
+    </div>
+    <div class="card reveal">
+      <div class="icon">🔥</div>
+      <h3>Curated Experience</h3>
+      <p>Hand-tuned plugins that enhance vanilla without replacing it. The depths feel deeper here.</p>
+    </div>
+  </div>
+</section>
 
-<div class="grid">
+<section class="section" id="rules">
+  <div class="section-head reveal">
+    <div class="kicker">Code of the Depths</div>
+    <h2>Server Rules</h2>
+    <p>Simple, fair, and built to keep the world a place worth playing in.</p>
+  </div>
+  <div class="grid">
+    <div class="card reveal">
+      <h3>Play Fair</h3>
+      <ul>
+        <li>No hacks, exploits, or unfair mods</li>
+        <li>No grief, theft, or claim disputes</li>
+        <li>Report bugs instead of abusing them</li>
+      </ul>
+    </div>
+    <div class="card reveal">
+      <h3>Respect Others</h3>
+      <ul>
+        <li>No toxicity or harassment</li>
+        <li>Respect builds and player property</li>
+        <li>Keep chat friendly across all languages</li>
+      </ul>
+    </div>
+    <div class="card reveal" id="status">
+      <h3>Server Status</h3>
+      <div class="status-row"><span class="k">Network</span><span class="v online">Online</span></div>
+      <div class="status-row"><span class="k">Version</span><span class="v">1.21</span></div>
+      <div class="status-row"><span class="k">Mode</span><span class="v">Survival SMP</span></div>
+      <div class="status-row"><span class="k">Community</span><span class="v">Active</span></div>
+    </div>
+  </div>
+</section>
 
-<div class="card fade" id="about">
-<h2>The World</h2>
-<p>
-A community-focused survival SMP built around long-term progression,
-player interaction, exploration and unforgettable adventures.
-</p>
-</div>
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2>Your Story Starts Below</h2>
+    <p>Connect, build, and explore alongside a community that's been waiting for you.</p>
+    <div class="actions">
+      <a class="btn ghost" href="https://www.youtube.com/@mrdurdengaming13" target="_blank">YouTube Channel</a>
+      <a class="btn ghost" onclick="copyIP()">Copy Server IP</a>
+    </div>
+  </div>
+</section>
 
-<div class="card fade">
-<h2>Server Rules</h2>
-<ul class="rules">
-<li>No hacks or exploits.</li>
-<li>Respect builds and player property.</li>
-<li>No toxicity or harassment.</li>
-<li>Play fair and help the community grow.</li>
-</ul>
-</div>
-
-<div class="card fade">
-<h2>Server Status</h2>
-
-<div class="status">
-<span>Network</span>
-<span class="online">ONLINE</span>
-</div>
-
-<div class="status">
-<span>Version</span>
-<span>1.21</span>
-</div>
-
-<div class="status">
-<span>Gamemode</span>
-<span>Survival SMP</span>
-</div>
-
-<div class="status">
-<span>Community</span>
-<span>Active</span>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<footer>
-© 2026 Underworld SMP • Explore The Depths
+<<footer>
+  © 2026 <span>Underworld SMP</span> · Explore The Depths
 </footer>
 
 <script>
 function copyIP(){
-navigator.clipboard.writeText("under.kinoko.world");
-
-const box=document.querySelector(".ip-box");
-
-const original=box.innerHTML;
-
-box.innerHTML=
-'✓ Copied! <span class="ip">under.kinoko.world</span>';
-
-setTimeout(()=>{
-box.innerHTML=original;
-},2000);
+  navigator.clipboard.writeText("under.kinoko.world");
+  const card = document.getElementById("ipCard");
+  const pill = document.getElementById("copyPill");
+  if(!card || !pill) return;
+  card.classList.add("copied");
+  const old = pill.textContent;
+  pill.textContent = "✓ Copied";
+  setTimeout(()=>{card.classList.remove("copied");pill.textContent = old;},1800);
 }
 
-const glow=document.getElementById("cursor-glow");
+(function(){
+  const wrap = document.getElementById("embers");
+  const N = 28;
+  for(let i=0;i<N;i++){
+    const e = document.createElement("div");
+    e.className = "ember";
+    e.style.left = Math.random()*100 + "%";
+    e.style.setProperty("--drift", (Math.random()*120-60) + "px");
+    e.style.animationDuration = (8 + Math.random()*10) + "s";
+    e.style.animationDelay = (Math.random()*12) + "s";
+    e.style.width = e.style.height = (2 + Math.random()*3) + "px";
+    wrap.appendChild(e);
+  }
+})();
 
-document.addEventListener("mousemove",(e)=>{
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target);}
+  });
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("mousemove",(e)=>{
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", ((e.clientX-r.left)/r.width*100)+"%");
+    card.style.setProperty("--my", ((e.clientY-r.top)/r.height*100)+"%");
+  });
 });
 </script>
 
 </body>
 </html>
-```
